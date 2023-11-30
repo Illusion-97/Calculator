@@ -219,4 +219,10 @@ class CalculatorTest {
                 Arguments.of(5000,1000)
         );
     }
+
+
+    @Test
+    void failingTest() {
+        assertEquals(50,45);
+    }
 }

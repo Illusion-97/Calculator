@@ -15,4 +15,5 @@ class CalculatorApplicationTests {
 		// Assert ? vide puisque si quelque chose empêche la bonne construction du contexte, le test fail
 	}
 
+
 }
