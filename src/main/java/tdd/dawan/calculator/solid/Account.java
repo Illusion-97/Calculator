@@ -1,5 +1,6 @@
 package tdd.dawan.calculator.solid;
 
+
 public class Account {
     private double amount;
     private int pin;
