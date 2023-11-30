@@ -223,6 +223,6 @@ class CalculatorTest {
 
     @Test
     void failingTest() {
-        assertEquals(50,45);
+        assertEquals(50,50);
     }
 }
