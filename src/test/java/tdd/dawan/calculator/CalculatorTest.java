@@ -2,9 +2,15 @@ package tdd.dawan.calculator;
 
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -159,6 +165,7 @@ class CalculatorTest {
         System.out.println("\u001B[36mCalculatorTest.afterAll\u001B[0m");
     }
 
+    //region Same Code
     @Test
     void givenNothing_whenRandomize_thenReturnTen() {
         int expected = 10;
@@ -174,12 +181,8 @@ class CalculatorTest {
     @Test
     void givenGetRandomIntNegativeOne_whenRandomize_thenReturnTen() {
         int expected = 0;
-
-        // Si on ne précise rien pour le Mock, il reverra la valeur par défaut du type attendu
-        // Sinon on demande explicitement lors de l'appel d'une fonction du mock de renvoyer une donnée prédéfinie
         Mockito.when(randomizer.getRandomInt()).thenReturn(-1);
         int result = calculator.randomize();
-
         assertEquals(expected, result);
     }
 
@@ -188,12 +191,32 @@ class CalculatorTest {
     @Test
     void givenGetRandomInt1001_whenRandomize_thenReturn1000() {
         int expected = 1000;
-
-        // Si on ne précise rien pour le Mock, il reverra la valeur par défaut du type attendu
-        // Sinon on demande explicitement lors de l'appel d'une fonction du mock de renvoyer une donnée prédéfinie
         Mockito.when(randomizer.getRandomInt()).thenReturn(1001);
         int result = calculator.randomize();
-
         assertEquals(expected, result);
+    }
+    //endregion
+
+    @ParameterizedTest // Utile pour gagner en temps lorsque les différents tests ne dépendent que valeurs différentes
+    /*@CsvSource({
+            "10, 10",
+            "-1, 0",
+            "1001, 1000",
+            "5000,1000"
+    })*/
+    @MethodSource("randomizeProvider")
+    void randomizeParameterizedTest(int randomizerIntValue, int expected) {
+        Mockito.when(randomizer.getRandomInt()).thenReturn(randomizerIntValue);
+        int result = calculator.randomize();
+        assertEquals(expected, result);
+    }
+
+    private static Stream<Arguments> randomizeProvider() {
+        return Stream.of(
+                Arguments.of(10,10),
+                Arguments.of(-1,0),
+                Arguments.of(1001,1000),
+                Arguments.of(5000,1000)
+        );
     }
 }
