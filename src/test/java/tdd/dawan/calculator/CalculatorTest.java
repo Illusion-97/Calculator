@@ -170,4 +170,30 @@ class CalculatorTest {
 
         assertEquals(expected, result);
     }
+
+    @Test
+    void givenGetRandomIntNegativeOne_whenRandomize_thenReturnTen() {
+        int expected = 0;
+
+        // Si on ne précise rien pour le Mock, il reverra la valeur par défaut du type attendu
+        // Sinon on demande explicitement lors de l'appel d'une fonction du mock de renvoyer une donnée prédéfinie
+        Mockito.when(randomizer.getRandomInt()).thenReturn(-1);
+        int result = calculator.randomize();
+
+        assertEquals(expected, result);
+    }
+
+
+
+    @Test
+    void givenGetRandomInt1001_whenRandomize_thenReturn1000() {
+        int expected = 1000;
+
+        // Si on ne précise rien pour le Mock, il reverra la valeur par défaut du type attendu
+        // Sinon on demande explicitement lors de l'appel d'une fonction du mock de renvoyer une donnée prédéfinie
+        Mockito.when(randomizer.getRandomInt()).thenReturn(1001);
+        int result = calculator.randomize();
+
+        assertEquals(expected, result);
+    }
 }

@@ -28,7 +28,9 @@ public class Calculator {
     1000 >= Retour >= 0
     */
     public int randomize() {
-        return randomizer.getRandomInt();
+        int randomInt = randomizer.getRandomInt();
+        if (randomInt > 1000) return 1000;
+        return Math.max(randomInt, 0);
     }
 
     @Override
