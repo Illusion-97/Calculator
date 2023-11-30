@@ -23,6 +23,10 @@ public class Calculator {
        return a + b;
     }
 
+
+    /*
+    1000 >= Retour >= 0
+    */
     public int randomize() {
         return randomizer.getRandomInt();
     }

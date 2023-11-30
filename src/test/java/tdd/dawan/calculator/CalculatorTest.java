@@ -1,12 +1,20 @@
 package tdd.dawan.calculator;
 
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ExtendWith(MockitoExtension.class) // Permet l'utilisation de Mock pour simuler une dépendance
 class CalculatorTest {
 
-    Calculator calculator;
+    private Calculator calculator;
+    @Mock // Plutôt que de passer par le constructeur de la classe, on va créer une instance de simulation
+    private Randomizer randomizer;
+
 
     @Test // Je vais écrire une méthode de test
     void givenOneAndOne_whenDivide_thenReturnOne() {
@@ -138,7 +146,7 @@ class CalculatorTest {
     @BeforeEach // Exécute un traitement avant le lancement de chaque méthode de test
     void beforeEach() {
         System.out.println("\u001B[36mCalculatorTest.beforeEach\u001B[0m");
-        calculator = new Calculator(null);
+        calculator = new Calculator(randomizer);
     }
 
     @AfterEach // Each -> d'instance vous permet de gérer les variables de votre classe
@@ -151,5 +159,15 @@ class CalculatorTest {
         System.out.println("\u001B[36mCalculatorTest.afterAll\u001B[0m");
     }
 
+    @Test
+    void givenNothing_whenRandomize_thenReturnTen() {
+        int expected = 10;
 
+        // Si on ne précise rien pour le Mock, il reverra la valeur par défaut du type attendu
+        // Sinon on demande explicitement lors de l'appel d'une fonction du mock de renvoyer une donnée prédéfinie
+        Mockito.when(randomizer.getRandomInt()).thenReturn(10);
+        int result = calculator.randomize();
+
+        assertEquals(expected, result);
+    }
 }
